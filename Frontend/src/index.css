@@ -1,0 +1,91 @@
+/* ============================================================
+   SYLVA — Global Styles
+   Aesthetic: Organic field journal meets modern data tool.
+   Dark forest greens, warm parchment, botanical ink accents.
+   Fonts: Playfair Display (editorial) + DM Mono (data/labels)
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --forest:      #1a2e1a;
+  --canopy:      #2d4a2d;
+  --moss:        #4a7c59;
+  --sage:        #7eb89a;
+  --mist:        #b8d4c0;
+  --parchment:   #f5f0e8;
+  --cream:       #faf7f2;
+  --ink:         #1a1a18;
+  --amber:       #c8853a;
+  --rust:        #a0522d;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-mono:    'DM Mono', 'Courier New', monospace;
+
+  --panel-width: 400px;
+  --header-height: 56px;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-mono);
+  background: var(--forest);
+  color: var(--parchment);
+}
+
+/* Leaflet overrides */
+.leaflet-container {
+  background: #2a3d2a;
+  font-family: var(--font-mono);
+}
+
+.leaflet-tile-pane {
+  filter: saturate(0.85) brightness(0.92);
+}
+
+.leaflet-popup-content-wrapper {
+  background: var(--forest);
+  color: var(--parchment);
+  border: 1px solid var(--moss);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.leaflet-popup-tip {
+  background: var(--forest);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--moss); border-radius: 2px; }
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-ring {
+  0%   { transform: scale(1); opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}

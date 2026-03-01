@@ -1,2 +1,0 @@
-# Placeholder for fine-tuned Kenya tree species model
-# Place your trained model files here

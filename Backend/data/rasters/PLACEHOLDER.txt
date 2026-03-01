@@ -1,2 +1,0 @@
-# Placeholder for BioClim raster files
-# Place bio01.tif, bio05.tif, bio06.tif, etc. here
