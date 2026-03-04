@@ -23,7 +23,7 @@ router = APIRouter(prefix="/predict", tags=["predict"])
 class PredictRequest(BaseModel):
     lat:     float = Field(..., description="Latitude",  example=-1.286)
     lng:     float = Field(..., description="Longitude", example=36.817)
-    user_id: str   = Field(None, description="Supabase user ID (optional)")
+    user_id: str | None = Field(None, description="Supabase user ID (optional)")
 
 
 class SpeciesResult(BaseModel):
