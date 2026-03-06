@@ -18,6 +18,19 @@ BIOCLIM_VARS = {
 }
 
 RASTER_DIR = Path(os.getenv("RASTER_DIR", "data/rasters"))
+LAND_MASK   = RASTER_DIR / "gshhs_land_water_mask_3km_i.tif"
+
+def is_land(lat: float, lng: float) -> bool:
+    
+   # Samples the GSHHG land mask at the given coordinate.
+   # Returns True if land (value = 100), False if water (value = 0).
+
+   # WHY this file: matches our WorldClim 2.5m resolution closely enough
+   # (3km vs 4.5km) and covers all water bodies including lakes and ocean.
+   
+    with rasterio.open(LAND_MASK) as ds:
+        result = list(ds.sample([(lng, lat)]))[0][0]
+        return float(result) == 100.0
 
 
 def extract_bioclim(lat: float, lng: float) -> dict:
@@ -30,6 +43,17 @@ def extract_bioclim(lat: float, lng: float) -> dict:
     WHY float(): rasterio returns numpy.float32 which JSON cannot serialize.
     WorldClim 2.1 stores all values as real floats — no unit conversion needed.
     """
+      # Step 0 — land mask check before touching climate rasters
+    if not LAND_MASK.exists():
+        raise FileNotFoundError(f"Land mask not found: {LAND_MASK}")
+
+    if not is_land(lat, lng):
+        raise ValueError(
+            "This location appears to be water (ocean or lake). "
+            "Please click on land within Kenya."
+        )
+
+    # Step 1 — extract climate values
     values = {}
 
     for var_name, filename in BIOCLIM_VARS.items():
