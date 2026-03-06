@@ -12,7 +12,7 @@ const KENYA_CENTER = [-0.023559, 37.906193]
 // Custom pin marker using SVG — matches our forest aesthetic
 // WHY custom: Leaflet's default blue marker clashes with the dark theme
 function createPin(isLoading = false) {
-  const color = isLoading ? '#7eb89a' : '#c8853a'
+  const color = isLoading ? '#1a2e1a' : '#c8853a'
   const svg = `
     <svg width="28" height="38" viewBox="0 0 28 38" xmlns="http://www.w3.org/2000/svg">
       <path d="M14 0C6.27 0 0 6.27 0 14c0 10.5 14 24 14 24s14-13.5 14-24C28 6.27 21.73 0 14 0z"
@@ -32,7 +32,7 @@ function createPin(isLoading = false) {
 // Handles map click events
 // WHY separate component: react-leaflet hooks (useMapEvents) must be
 // used inside the MapContainer, not outside it.
-function ClickHandler({ onMapClick, hasPanel }) {
+function ClickHandler({ onMapClick}) {
   useMapEvents({
     click(e) {
       const { lat, lng } = e.latlng
@@ -91,7 +91,7 @@ export default function Map({ onMapClick, selectedCoords, loading, hasPanel }) {
         minZoom={5}
         maxZoom={14}
         maxBounds={KENYA_BOUNDS}
-        maxBoundsViscosity={0.85}
+        maxBoundsViscosity={1.0} // Prevents panning outside bounds
         style={{ height: '100%', width: '100%' }}
         zoomControl={true}
       >
@@ -100,7 +100,7 @@ export default function Map({ onMapClick, selectedCoords, loading, hasPanel }) {
           attribution='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
         />
 
-        <ClickHandler onMapClick={onMapClick} hasPanel={hasPanel} />
+        <ClickHandler onMapClick={onMapClick} />
 
         {/* Show pin at selected location */}
         {selectedCoords && (

@@ -199,6 +199,19 @@ const CLIM_LABELS = {
   bio19: { label: 'Cold Rain',    unit: 'mm' },
 }
 
+// Returns color based on similarity score
+function confidenceColor(score) {
+  if (score >= 0.55) return '#7eb89a'   // sage green — strong match
+  if (score >= 0.40) return '#c8853a'   // amber — moderate match
+  return '#c0605a'                      // muted red — weak match
+}
+
+// Returns a label for the confidence level
+function confidenceLabel(score) {
+  if (score >= 0.55) return 'Strong'
+  if (score >= 0.40) return 'Moderate'
+  return 'Weak'
+}
 export default function ResultsPanel({ loading, data, coords }) {
   // Panel is always visible when there's data or loading
   if (!loading && !data) return null
@@ -273,7 +286,10 @@ export default function ResultsPanel({ loading, data, coords }) {
               >
                 <div style={styles.cardTop}>
                   <span style={styles.rank}>#{i + 1}</span>
-                  <span style={styles.score}>
+                  <span style={{ ...styles.score,
+                    color: confidenceColor(species.similarity),
+                    fontWeight: 500,
+                  }}>
                     {(species.similarity * 100).toFixed(1)}% match
                   </span>
                 </div>
@@ -285,7 +301,8 @@ export default function ResultsPanel({ loading, data, coords }) {
                 <div style={styles.bar}>
                   <div style={{
                     ...styles.barFill,
-                    width: `${species.similarity * 100}%`
+                    width: `${species.similarity * 100}%` ,
+                    background: confidenceColor(species.similarity),
                   }} />
                 </div>
 
